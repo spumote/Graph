@@ -11,7 +11,7 @@ int FlowGraph::getMaxCap() {
 	int ans = 0;
 	for (int i = 0; i < (int)E.size(); i++) {
 		for (int j = 0; j < (int)E[i].size(); j++) {
-			ans = max(ans, E[i][j]->getFlow() + E[i][j]->getG());
+			ans = max(ans, E[i][j]->getFlow() + E[i][j]->getRest());
 		}
 	}
 	return ans;	
@@ -35,7 +35,7 @@ void FlowGraph::get() {
 
 		E[a].push_back(new FlowEdge(a, b, i + 1, 0, c, NULL));
 		E[b].push_back(new FlowEdge(b, a, 0, 0, 0, E[a][ E[a].size() - 1 ]));
-		E[a][ E[a].size() - 1 ]->setRev(E[b][ E[b].size() - 1 ]);
+		E[a][ E[a].size() - 1 ]->setreversedEdge(E[b][ E[b].size() - 1 ]);
 	}	
 }
 
@@ -47,8 +47,8 @@ long long FlowGraph::pushFlow(int x, long long flow, int minG, int T) {
 
 	for (int i = V[x]->getHead(); i < (int)E[x].size(); i++) {
 		int y = E[x][i]->getTo();
-		if (V[y]->getDist() == V[x]->getDist() + 1 && E[x][i]->getG() >= minG && flow > 0) {
-			long long cur = pushFlow(y, min(flow, (long long)E[x][i]->getG()), minG, T);
+		if (V[y]->getDist() == V[x]->getDist() + 1 && E[x][i]->getRest() >= minG && flow > 0) {
+			long long cur = pushFlow(y, min(flow, (long long)E[x][i]->getRest()), minG, T);
 			flow -= cur;
 			if (flow != 0) {
 				V[x]->increaseHead();
@@ -82,7 +82,7 @@ long long FlowGraph::Dinic(int S, int T) {
 void FlowGraph::push(FlowEdge* e) {
  	int a = e->getFrom();
  	int b = e->getTo();
- 	long long d = min(V[a]->getExcess(), (long long)e->getG());
+ 	long long d = min(V[a]->getExcess(), (long long)e->getRest());
  	e->push(d);
  	V[a]->increaseExcess(-d);
  	V[b]->increaseExcess(d);
@@ -91,7 +91,7 @@ void FlowGraph::push(FlowEdge* e) {
 void FlowGraph::relabel(int a) {
 	int ans = INF;
 	for (int i = 0; i < (int)E[a].size(); i++) {
-		if (E[a][i]->getG() > 0) {
+		if (E[a][i]->getRest() > 0) {
 			ans = min(ans, V[ E[a][i]->getTo() ]->getLabel() + 1);
 		}
 	}
@@ -107,9 +107,9 @@ void FlowGraph::initPreflow(int S) {
 		if (E[S][j]->getTo() == S) {
 			continue;
 		}
-		V[ E[S][j]->getTo() ]->increaseExcess( E[S][j]->getG() );
-		V[S]->increaseExcess(-E[S][j]->getG());
-		E[S][j]->push(E[S][j]->getG());
+		V[ E[S][j]->getTo() ]->increaseExcess( E[S][j]->getRest() );
+		V[S]->increaseExcess(-E[S][j]->getRest());
+		E[S][j]->push(E[S][j]->getRest());
 	}
 	V[S]->setLabel(V.size());
 }
@@ -122,7 +122,7 @@ void FlowGraph::discharge(int u, int S, int T, queue<int>& q, vector<int>& used)
 		}
 		else {
 			FlowEdge* e = E[u][ V[u]->getHead() ];
-			if (e->getG() > 0 && V[u]->getLabel() == V[e->getTo()]->getLabel() + 1) {
+			if (e->getRest() > 0 && V[u]->getLabel() == V[e->getTo()]->getLabel() + 1) {
 				push(e);
 				if (used[e->getTo()] == 0 && V[e->getTo()]->getExcess() > 0 && e->getTo() != S && e->getTo() != T) {
 					q.push(e->getTo());

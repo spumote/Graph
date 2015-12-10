@@ -6,18 +6,18 @@
 class FlowEdge : public Edge {
 private:
 	int flow, capacity;
-	FlowEdge* rev;
+	FlowEdge* reversedEdge;
 public:
-	FlowEdge() : rev(NULL) {}
-	FlowEdge(int _from, int _to, int _id, int _flow, int _capacity, FlowEdge* _rev) : Edge(_from, _to, _id) {
+	FlowEdge() : reversedEdge(NULL) {}
+	FlowEdge(int _from, int _to, int _id, int _flow, int _capacity, FlowEdge* _reversedEdge) : Edge(_from, _to, _id) {
 		flow = _flow;
 	 	capacity = _capacity;
-		rev = _rev;
+		reversedEdge = _reversedEdge;
 	}	
 
-	void setRev(FlowEdge* _rev);
+	void setreversedEdge(FlowEdge* _reversedEdge);
 	void push(int x);
-	int getG();
+	int getRest();
 	int getFlow();
 };
 

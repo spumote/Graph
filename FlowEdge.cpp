@@ -7,16 +7,16 @@ int FlowEdge::getFlow() {
 	return flow;
 }   
 
-void FlowEdge::setRev(FlowEdge* _rev) {
-	rev = _rev;
+void FlowEdge::setreversedEdge(FlowEdge* _reversedEdge) {
+	reversedEdge = _reversedEdge;
 }
 
 void FlowEdge::push(int x) {
 	this->flow += x;
-	this->rev->flow -= x;
+	this->reversedEdge->flow -= x;
 }
 
-int FlowEdge::getG() {
+int FlowEdge::getRest() {
 	return capacity - flow;
 }
 

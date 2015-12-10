@@ -36,7 +36,7 @@ Graph::Graph(const vector<vector<FlowEdge*> >& FlowE, const vector<Vertex*>& Flo
 	for (int i = 0; i < (int)FlowE.size(); i++) {
 		E[i].resize(0);
 		for (int j = 0; j < (int)FlowE[i].size(); j++) {
-			if (FlowE[i][j]->getG() >= minG) {
+			if (FlowE[i][j]->getRest() >= minG) {
 				int y = FlowE[i][j]->getTo();
 				E[i].push_back(new Edge(i, y, FlowE[i][j]->getId()));
 				EdgeCount++;
