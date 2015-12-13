@@ -16,7 +16,7 @@ public:
 	}	
 
 	void setreversedEdge(FlowEdge* _reversedEdge);
-	void push(int x);
+	void push(int ad);
 	int getRest();
 	int getFlow();
 };

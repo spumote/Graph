@@ -15,8 +15,8 @@ using namespace std;
 class FlowGraph {
 private:
 	int EdgeCount;
-	vector<vector<FlowEdge*> > E;
-	vector<Vertex*> V;
+	vector<vector<FlowEdge*> > flowEdges;
+	vector<Vertex*> flowVertexes;
 
 public:
 	FlowGraph() {}
@@ -24,16 +24,16 @@ public:
 	int getSize();
 	int getMaxCap();
 	void get();
-	long long pushFlow(int S, long long flow, int minG, int T);
-	long long Dinic(int S, int T);
+	long long pushFlow(int start, long long flow, int minG, int finish);
+	long long Dinic(int start, int finish);
 	void printFlow();
 
-	void push(FlowEdge* e);
-	void relabel(int a);
-	void initPreflow(int S);
+	void push(FlowEdge* edge);
+	void relabel(int vertex);
+	void initPreflow(int start);
 
-	void discharge(int u, int S, int T, queue<int>& q, vector<int>& used);
-	long long RelabelToFront(int S, int T);
+	void discharge(int u, int start, int finish, queue<int>& q, vector<int>& used);
+	long long RelabelToFront(int start, int finish);
 	void Gap();
 };
 

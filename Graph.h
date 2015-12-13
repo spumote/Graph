@@ -15,14 +15,14 @@ using namespace std;
 class Graph {
 private:
 	int EdgeCount;
-	vector<vector<Edge*> > E;
-	vector<Vertex*> V;
+	vector<vector<Edge*> > edges;
+	vector<Vertex*> vertexes;
 
 public:
 	Graph() {}
-	Graph(const vector<vector<FlowEdge*> >& FlowE, const vector<Vertex*>& FlowV, int minG);
+	Graph(const vector<vector<FlowEdge*> >& flowEdges, const vector<Vertex*>& flowVertexes, int minG);
 	int getSize();
-	void bfs(int S);
+	void bfs(int start);
 };
 
 #include "Graph.cpp"

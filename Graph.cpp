@@ -4,47 +4,47 @@
 #include "Graph.h"
 
 int Graph::getSize() {
-	return E.size();
+	return edges.size();
 }
 
-void Graph::bfs(int S) {
-	int n = E.size();
+void Graph::bfs(int start) {
+	int n = edges.size();
 	for (int i = 0; i < n; i++) {
-		V[i]->setDist(INF);
+		vertexes[i]->setDist(INF);
 	}
-	V[S]->setDist(0);
+	vertexes[start]->setDist(0);
 	queue<int> q;
-	q.push(S);
+	q.push(start);
 
 	while (q.size() > 0) {
 		int cur = q.front();
 		q.pop();
 
-		for (int i = 0; i < (int)E[cur].size(); i++) {
-			int y = E[cur][i]->getTo();
-			if (V[y]->getDist() == INF) {
-				V[y]->setDist(V[cur]->getDist() + 1);
+		for (int i = 0; i < (int)edges[cur].size(); i++) {
+			int y = edges[cur][i]->getTo();
+			if (vertexes[y]->getDist() == INF) {
+				vertexes[y]->setDist(vertexes[cur]->getDist() + 1);
 				q.push(y);
 			}
 		}
 	}
 }
 
-Graph::Graph(const vector<vector<FlowEdge*> >& FlowE, const vector<Vertex*>& FlowV, int minG) {
-	E.resize(FlowE.size());
+Graph::Graph(const vector<vector<FlowEdge*> >& flowEdges, const vector<Vertex*>& flowVertexes, int minG) {
+	edges.resize(flowEdges.size());
 	EdgeCount = 0;
-	for (int i = 0; i < (int)FlowE.size(); i++) {
-		E[i].resize(0);
-		for (int j = 0; j < (int)FlowE[i].size(); j++) {
-			if (FlowE[i][j]->getRest() >= minG) {
-				int y = FlowE[i][j]->getTo();
-				E[i].push_back(new Edge(i, y, FlowE[i][j]->getId()));
+	for (int i = 0; i < (int)flowEdges.size(); i++) {
+		edges[i].resize(0);
+		for (int j = 0; j < (int)flowEdges[i].size(); j++) {
+			if (flowEdges[i][j]->getRest() >= minG) {
+				int y = flowEdges[i][j]->getTo();
+				edges[i].push_back(new Edge(i, y, flowEdges[i][j]->getId()));
 				EdgeCount++;
 			}
 		}
 	}
 
-	V = FlowV;
+	vertexes = flowVertexes;
 }
 
 #endif

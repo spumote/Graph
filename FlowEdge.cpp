@@ -11,9 +11,9 @@ void FlowEdge::setreversedEdge(FlowEdge* _reversedEdge) {
 	reversedEdge = _reversedEdge;
 }
 
-void FlowEdge::push(int x) {
-	this->flow += x;
-	this->reversedEdge->flow -= x;
+void FlowEdge::push(int ad) {
+	this->flow += ad;
+	this->reversedEdge->flow -= ad;
 }
 
 int FlowEdge::getRest() {
